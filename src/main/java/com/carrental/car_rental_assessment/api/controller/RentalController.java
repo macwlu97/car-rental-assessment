@@ -11,14 +11,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/rentals")
-@RequiredArgsConstructor
 public class RentalController {
 
     private final RentalService rentalService;
 
+    public RentalController(RentalService rentalService) {
+        this.rentalService = rentalService;
+    }
+
     @PostMapping("/reserve")
     public ResponseEntity<Reservation> reserve(@RequestBody ReservationRequest request) {
-        return rentalService.createReservation(request.getType(), request.getStartTime(), request.getDurationDays())
+        return rentalService.createReservation(request.type(), request.startTime(), request.durationDays())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.badRequest().build());
     }

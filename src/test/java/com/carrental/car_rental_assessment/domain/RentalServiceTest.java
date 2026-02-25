@@ -25,7 +25,7 @@ class RentalServiceTest {
 
         // then
         assertThat(result).isPresent();
-        assertThat(result.get().getCarType()).isEqualTo(CarType.SEDAN);
+        assertThat(result.get().carType()).isEqualTo(CarType.SEDAN);
     }
 
     @Test

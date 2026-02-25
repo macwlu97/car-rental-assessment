@@ -8,12 +8,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 @Service
 public class RentalService {
 
-    // Hardcoded limited fleet as per requirements
     private final List<Car> inventory = Arrays.asList(
             new Car("SED-1", CarType.SEDAN),
             new Car("SED-2", CarType.SEDAN),
@@ -24,39 +22,37 @@ public class RentalService {
 
     private final Map<String, Reservation> reservations = new ConcurrentHashMap<>();
 
-    /**
-     * Tries to create a reservation. Thread-safe to prevent overbooking.
-     */
     public synchronized Optional<Reservation> createReservation(CarType type, LocalDateTime start, int days) {
-        if (days <= 0 || start == null) {
+        if (start == null || days <= 0 || type == null) {
             return Optional.empty();
         }
 
-        List<Car> availableCarsOfType = inventory.stream()
-                .filter(car -> car.getType() == type)
-                .filter(car -> isCarAvailable(car.getId(), start, days))
+        List<Car> availableCars = inventory.stream()
+                .filter(car -> car.type() == type)
+                .filter(car -> isCarAvailable(car.id(), start, days))
                 .toList();
 
-        if (availableCarsOfType.isEmpty()) {
+        if (availableCars.isEmpty()) {
             return Optional.empty();
         }
 
-        Car assignedCar = availableCarsOfType.get(0);
-        Reservation reservation = Reservation.builder()
+        Car assignedCar = availableCars.get(0);
+
+        Reservation newReservation = Reservation.builder()
                 .id(UUID.randomUUID().toString())
-                .carId(assignedCar.getId())
+                .carId(assignedCar.id())
                 .carType(type)
                 .startTime(start)
                 .durationDays(days)
                 .build();
 
-        reservations.put(reservation.getId(), reservation);
-        return Optional.of(reservation);
+        reservations.put(newReservation.id(), newReservation);
+        return Optional.of(newReservation);
     }
 
     private boolean isCarAvailable(String carId, LocalDateTime start, int days) {
         return reservations.values().stream()
-                .filter(res -> res.getCarId().equals(carId))
+                .filter(res -> res.carId().equals(carId))
                 .noneMatch(res -> res.overlapsWith(start, days));
     }
 

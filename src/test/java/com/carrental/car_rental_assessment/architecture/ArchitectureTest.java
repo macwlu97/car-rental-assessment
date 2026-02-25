@@ -15,9 +15,7 @@ public class ArchitectureTest {
             .consideringAllDependencies()
             .layer("API").definedBy("..api..")
             .layer("Domain").definedBy("..domain..")
-            .layer("Infrastructure").definedBy("..infrastructure..")
 
             .whereLayer("API").mayNotBeAccessedByAnyLayer()
-            .whereLayer("Domain").mayOnlyBeAccessedByLayers("API", "Infrastructure")
-            .whereLayer("Infrastructure").mayOnlyBeAccessedByLayers("API");
+            .whereLayer("Domain").mayOnlyBeAccessedByLayers("API");
 }
