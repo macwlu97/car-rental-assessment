@@ -1,6 +1,7 @@
 package com.carrental.car_rental_assessment.domain;
 
 import com.carrental.car_rental_assessment.domain.model.CarType;
+import com.carrental.car_rental_assessment.domain.service.RentalService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

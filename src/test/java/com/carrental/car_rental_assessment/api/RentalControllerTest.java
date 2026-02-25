@@ -1,5 +1,8 @@
 package com.carrental.car_rental_assessment.api;
 
+import com.carrental.car_rental_assessment.domain.model.CarType;
+import com.carrental.car_rental_assessment.domain.model.Reservation;
+import com.carrental.car_rental_assessment.domain.service.RentalService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class RentalControllerItTest {
+class RentalControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -84,4 +87,4 @@ class RentalControllerItTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
-}}
+}
