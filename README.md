@@ -2,6 +2,8 @@
 
 ## Project Overview
 
+Swagger UI: http://localhost:8080/swagger-ui/index.html#
+
 This is a simulated **Car Rental System** built with Java 17 and Spring Boot 3.4. 
 
 It follows **Domain-Driven Design (DDD)** principles and was developed using the **Test-Driven Development (TDD)** methodology.
